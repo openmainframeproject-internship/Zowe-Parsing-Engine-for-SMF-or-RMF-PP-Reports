@@ -14,7 +14,7 @@ a better understanding of the problems you encountered during the developmemnt o
 
 ## Project Team
 - Yongkook (Alex) Kim - Viacom Infinity - Mentor
-- Salisu Ali - *University* - Mentee
+- Salisu Ali - Bayero University Kano, Nigeria - Mentee
 
 ## Deliverables:
 - [ ] Project Plan
