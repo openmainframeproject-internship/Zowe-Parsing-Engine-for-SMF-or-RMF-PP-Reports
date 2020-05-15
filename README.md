@@ -13,8 +13,8 @@ a better understanding of the problems you encountered during the developmemnt o
 | scr | Source code - create as many subdirectories as needed |
 
 ## Project Team
-- *Mentor's Name*  - *Company Affliation* - Mentor
-- *Mentee's Name* - *University* - Mentee
+- Yongkook(Alex) Kim -  Viacom Infinity - Mentor
+- Salisu Ali - *University* - Mentee
 
 ## Deliverables:
 - [ ] Project Plan
