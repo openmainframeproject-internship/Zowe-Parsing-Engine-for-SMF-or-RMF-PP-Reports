@@ -7,7 +7,7 @@ Status Report Template: https://github.com/openmainframeproject-internship/resou
 
 | Document | Description | Document Name |
 |---|---|---|
-| Project Plan | Overall week by week plan of milestones |https://github.com/openmainframeproject-internship/Zowe-Parsing-Engine-for-SMF-or-RMF-PP-Reports/blob/master/Status%20Reports/ZEBRA%20Project%20Plan.pdf |
+| Project Plan | Overall week by week plan of milestones |ZEBRA Project Plan |
 | Week 1 Status Report | | | 
 | Week 2 Status Report | | |
 | Week 3 Status Report | | |
