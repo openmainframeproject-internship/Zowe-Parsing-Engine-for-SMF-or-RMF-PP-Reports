@@ -13,7 +13,7 @@ a better understanding of the problems you encountered during the developmemnt o
 | scr | Source code - create as many subdirectories as needed |
 
 ## Project Team
-- Yongkook (Alex) Kim - Viacom Infinity - Mentor
+- Yongkook (Alex) Kim - Vicom Infinity - Mentor
 - Salisu Ali - Bayero University Kano, Nigeria - Mentee
 
 ## Deliverables:
