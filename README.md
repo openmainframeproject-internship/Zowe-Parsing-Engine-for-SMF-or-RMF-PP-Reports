@@ -1,9 +1,10 @@
 # Zowe Parsing Engine for SMF or RMF PP Reports
 ## *Short Project Description*
-The directory structure in this GitHub is to allow the project to have all its resources self-contained.
-Open Source software should not just be a repository of code.  There are a number of directories to help you and others that will 
-follow in your foot steps.  It'll also allow the Linux Foundation OMP Mentorship program to keep track of your project and get
-a better understanding of the problems you encountered during the developmemnt of this project.
+Zowe is a great systems operations tool. One of the systems programmers
+or performance analyzer's job is to decode SMF/RMF reports to check system's
+health. Having a generic parser for SMF datasets and/or RMF (or CMF) reports
+for Zowe would open various opportunities to create/re-use many open-source
+monitoring tools out there.
 
 | Folder | Description |
 |---|---|
