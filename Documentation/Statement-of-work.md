@@ -1,8 +1,8 @@
 # Project Description
-      Zowe is a great systems operations tool. One of the systems programmers or performance analyzer's job is to decode SMF/RMF reports to check system's health. Having a generic parser for SMF datasets and/or RMF (or CMF) reports for Zowe would open various opportunities to create/re-use many open-source monitoring tools out there.
+   Zowe is a great systems operations tool. One of the systems programmers or performance analyzer's job is to decode SMF/RMF reports to check system's health. Having a generic parser for SMF datasets and/or RMF (or CMF) reports for Zowe would open various opportunities to create/re-use many open-source monitoring tools out there.
 
 # State of the Project
-      Zowe SMF/RMF Parsing Engine Currently Support:
+   Zowe SMF/RMF Parsing Engine Currently Support:
   1.	Parsing CPU And Workload RMF Postprocessor Reports
   2.	Parsing CPC, PROC and USAGE RMF Monitor III Reports
   3.	Parsing Realtime Lpar Utilization Report
