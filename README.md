@@ -23,9 +23,9 @@ monitoring tools out there.
 - [X] Statement of Work
 - [X] Architecure/High Level Design
 - [X] Detailed Design
-- [ ] 2nd Stipend Released
-- [ ] Mid-term Evaluation (by mentor)
-- [ ] Code Project (with comments)
+- [X] 2nd Stipend Released
+- [X] Mid-term Evaluation (by mentor)
+- [X] Code Project (with comments) in progress
 - [ ] Testing
 - [ ] Video Presentation of the Project
 - [ ] Final Evaluation (by mentor)
