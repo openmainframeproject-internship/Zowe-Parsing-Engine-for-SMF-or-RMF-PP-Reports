@@ -1,0 +1,24 @@
+services:
+    - serviceId: zebra
+      catalogUiTileId: zebra
+      title: Zebra parsing Engine
+      description: RMF Parsing Engine for Monitor I and III Reports
+      instanceBaseUrls:
+        - https://localhost:3091
+      homePageRelativeUrl: / # Normally used for informational purposes for other services to use it as a landing page
+      routes:
+        - gatewayUrl: api/rmfm3
+          serviceRelativeUrl: /rmfm3
+      authentication:
+              scheme: httpBasicPassTicket
+              applid: ZOWEAPPL
+      apiInfo:
+        - apiId: localhost.zebra.3091
+          gatewayUrl: api/rmfm3
+          swaggerUrl: https://localhost:3091/api-doc
+          version: 1.0.0
+
+catalogUiTiles:
+    zebra:
+        title: Zebra parsing Engine
+        description: RMF Parsing Engine for Monitor I and III Reports

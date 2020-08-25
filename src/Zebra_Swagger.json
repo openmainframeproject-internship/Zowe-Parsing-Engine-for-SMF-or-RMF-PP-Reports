@@ -1,0 +1,313 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Report Parser for RMF Monitor I & III to JSON",
+    "version": "1.0 .0",
+    "title": "RMF Parsing Engine (ZEBRA)"
+  },
+  "host": "localhost:3091",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "RMF Monitor III",
+      "description": "Monitor III Reports to JSON"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "produces": ["application/json;charset=UTF-8"],
+  "paths": {
+    "/rmfm3?report={title}": {
+      "get": {
+        "tags": [
+          "RMF Monitor III"
+        ],
+        "summary": "Get RMF III Report by title only",
+        "operationId": "returnReportByTitle",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "title",
+            "in": "path",
+            "description": "Title of RMF III Report to retrieve",
+            "required": true,
+            "type": "string",
+            "default": "CPC",
+            "format": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "JSON"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/rmfm3?report={title}&parm={value}": {
+      "get": {
+        "tags": [
+          "RMF Monitor III"
+        ],
+        "summary": "Get RMF III CPC Report by title and caption parameter",
+        "operationId": "returnReportByTitleandCaption",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "title",
+            "in": "path",
+            "description": "Title of RMF III Report to retrieve",
+            "required": true,
+            "type": "string",
+            "default": "CPC",
+            "format": "string"
+          },
+          {
+            "name": "value",
+            "in": "path",
+            "description": "Caption parameter to retrieve from RMF III Report(if Available)",
+            "required": true,
+            "type": "string",
+            "default": "CPCHCMSU",
+            "format": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "JSON"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/rmfm3?report={title}&lpar_parms={value}": {
+      "get": {
+        "tags": [
+          "RMF Monitor III"
+        ],
+        "summary": "Get RMF III CPC Report by title and lpar name",
+        "operationId": "returnReportByTitleandLpar",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "title",
+            "in": "path",
+            "description": "Title of RMF III Report to retrieve",
+            "required": true,
+            "type": "string",
+            "default": "CPC",
+            "format": "string"
+          },
+          {
+            "name": "value",
+            "in": "path",
+            "description": "LPAR name to retrieve from RMF III CPC Report",
+            "required": true,
+            "type": "string",
+            "default": "VIRPT",
+            "format": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "JSON"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/rmfm3?report={title}&parm={value1}&lpar_parms={value2}": {
+      "get": {
+        "tags": [
+          "RMF Monitor III"
+        ],
+        "summary": "Get RMF III CPC Report by title, caption and Lpar name",
+        "operationId": "returnReportByTitleCaptionandLpar",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "title",
+            "in": "path",
+            "description": "Title of RMF III Report to retrieve",
+            "required": true,
+            "type": "string",
+            "default": "CPC",
+            "format": "string"
+          },
+          {
+            "name": "value1",
+            "in": "path",
+            "description": "Caption parameter to retrieve from RMF III Report(if Available)",
+            "required": true,
+            "type": "string",
+            "default": "CPCHCMSU",
+            "format": "string"
+          },
+          {
+            "name": "value2",
+            "in": "path",
+            "description": "LPAR name to retrieve from RMF III CPC Report",
+            "required": true,
+            "type": "string",
+            "default": "VIRPT",
+            "format": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "JSON"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/rmfm3?report={title}&job={value}": {
+      "get": {
+        "tags": [
+          "RMF Monitor III"
+        ],
+        "summary": "Get RMF III PROC and USAGE Reports by title and job name",
+        "operationId": "returnReportByTitleandJob",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "title",
+            "in": "path",
+            "description": "Title of RMF III Report to retrieve",
+            "required": true,
+            "type": "string",
+            "default": "PROC",
+            "format": "string"
+          },
+          {
+            "name": "value",
+            "in": "path",
+            "description": "Job name to retrieve from RMF III PROC and USAGE Report",
+            "required": true,
+            "type": "string",
+            "default": "VIRPT",
+            "format": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "JSON"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/rmfm3?filename={title}": {
+      "get": {
+        "tags": [
+          "RMF Monitor III"
+        ],
+        "summary": "Get RMF III SYSINFO Report by title",
+        "operationId": "returnSYSReportByTitle",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "title",
+            "in": "path",
+            "description": "Title of RMF III Report to retrieve",
+            "required": true,
+            "type": "string",
+            "default": "CPC",
+            "format": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "JSON"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  }
+}

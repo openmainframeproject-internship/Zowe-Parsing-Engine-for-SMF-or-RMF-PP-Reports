@@ -1,0 +1,80 @@
+extends layout
+
+block content
+  br
+  h1
+  h5 a
+  h1 CPU Report Parser
+  h3 #{books.Report}
+    h3 #{books.Timestamp}
+    for i in books.list
+        table
+            tr
+                td #{i[0]}
+
+                td #{i[1]}
+
+                td #{i[2]}
+
+                td #{i[3]}
+
+                td #{i[4]}
+
+                td #{i[5]}
+
+                td #{i[6]}
+
+                td #{i[7]}
+
+                td #{i[8]}
+
+                td #{i[9]}
+
+    h3 #{books.seg1part2name}
+    for i in books.seg1part2list
+        table
+            tr
+                td #{i[0]}
+
+                td #{i[1]}
+
+                td #{i[2]}
+
+                td #{i[3]}
+
+    h3 #{books.seg1part3name}
+    for i in books.seg1part3list
+        table
+            tr
+                td #{i[0]}
+
+                td #{i[1]}
+
+    h3 #{books.seg1part4name}
+    for i in books.seg1part4list
+        table
+            tr
+                td #{i[0]}
+
+                td #{i[1]}
+
+                td #{i[2]}
+
+                td #{i[3]}
+
+    h3 #{books.seg1part5name}
+    for i in books.seg1part5list
+        table
+            tr
+                td #{i[0]}
+
+                td #{i[1]}
+
+
+  hr
+
+    
+    
+
+      
+
