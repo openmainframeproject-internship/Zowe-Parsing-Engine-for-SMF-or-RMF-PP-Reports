@@ -78,8 +78,8 @@ module.exports.rmfIII = async function (req, res) { //Controller Function for Re
   if (req.query.job) {// checks if user has specify a value for job parameter in the URL
     urlJobParm = (req.query.job).toUpperCase(); //Sets urlJobParm to value specified by the user in the URL
   }
-  if(req.query.filename){
-    ulrFilename = (req.query.filename).toUpperCase() + ".xml";
+  if(req.query.reports){
+    ulrFilename = (req.query.reports).toUpperCase() + ".xml";
     RMFMonitor3getInfo(baseurl, baseport, ulrFilename, mvsResource, function (data){
       //res.json(data);
       RMFMonitor3parser.RMF3bodyParser(data, function (result){

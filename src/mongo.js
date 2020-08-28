@@ -13,7 +13,7 @@ console.log('mongo started');
 const cpuRealtimeURL = `${httptype}://${appbaseurl}:${appbaseport}/rmfm3?report=CPC`
 const procRealtimeURL = `${httptype}://${appbaseurl}:${appbaseport}/rmfm3?report=PROC`
 const usageRealtimeURL = `${httptype}://${appbaseurl}:${appbaseport}/rmfm3?report=USAGE`
-const sysRealtimeURL = `${httptype}://${appbaseurl}:${appbaseport}/rmfm3?filename=SYSINFO`;
+const sysRealtimeURL = `${httptype}://${appbaseurl}:${appbaseport}/rmfm3?reports=SYSINFO`;
 
 /**
  * getdata function query this app using its endpoint for JSON data to save to mongo DB 

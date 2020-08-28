@@ -12,7 +12,7 @@ let httptype = Zconfig.httptype;
 console.log('cpu prom started');
 
 const cpuRealtimeURL = `${httptype}://${appbaseurl}:${appbaseport}/rmfm3?report=CPC`;
-const sysRealtimeURL = `${httptype}://${appbaseurl}:${appbaseport}/rmfm3?filename=SYSINFO`;
+const sysRealtimeURL = `${httptype}://${appbaseurl}:${appbaseport}/rmfm3?reports=SYSINFO`;
 setInterval(() => { // Set interval function allows this routine to run at a specified intervals
     request({ //make a GET request to the cpuRealtimeURL
         url: cpuRealtimeURL, // URL to send Request

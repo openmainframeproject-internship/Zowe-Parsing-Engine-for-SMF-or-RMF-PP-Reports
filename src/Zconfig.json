@@ -19,7 +19,5 @@
     "authSource":"admin",
     "useMongo":"false",
     "usePrometheus":"false",
-    "https": "false",
-    "pfx": "undefined",
-    "passphrase": "None"
+    "https": "false"
 }

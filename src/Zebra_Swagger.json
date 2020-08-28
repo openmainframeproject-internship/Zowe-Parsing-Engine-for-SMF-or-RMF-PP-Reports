@@ -5,7 +5,7 @@
     "version": "1.0 .0",
     "title": "RMF Parsing Engine (ZEBRA)"
   },
-  "host": "localhost:3091",
+  "host": "localhost:3090",
   "basePath": "/",
   "tags": [
     {
@@ -268,12 +268,12 @@
         "deprecated": false
       }
     },
-    "/rmfm3?filename={title}": {
+    "/rmfm3?reports={title}": {
       "get": {
         "tags": [
           "RMF Monitor III"
         ],
-        "summary": "Get RMF III SYSINFO Report by title",
+        "summary": "Get RMF III SYSINFO Report by title/Reports not accessible through gpm",
         "operationId": "returnSYSReportByTitle",
         "produces": [
           "application/json"

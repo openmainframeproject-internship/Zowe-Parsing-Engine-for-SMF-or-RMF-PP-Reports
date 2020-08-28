@@ -69,7 +69,7 @@ module.exports.RMF3bodyParser = function (data, fn) {
             }
             fn(parsedJSON); //return parsed JSON
         } catch (err) {
-            fn(data);
+            fn("Parsing RMF III XML Failed! Check Connection to DDS server");
         }
 
     });
