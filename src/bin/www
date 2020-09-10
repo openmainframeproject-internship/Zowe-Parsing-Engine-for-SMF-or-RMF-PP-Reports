@@ -11,9 +11,8 @@ var Zconfig = require("../Zconfig.json");
 var httpsparm = Zconfig["https"];
 var pfx = "undefined" //Zconfig["pfx"];
 var pass = "None" //Zconfig["passhrase"];
-var apport = Zconfig["appport"];
 var config;
-var port = normalizePort(process.env.PORT || apport);
+var port = normalizePort(process.env.PORT || 3090 );
 
 /**
  * Get port from environment and store in Express.

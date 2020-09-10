@@ -22,6 +22,9 @@
     "readline": "0.0.x",
     "request": "^2.88.2",
     "swagger-ui-express": "^4.1.4",
-    "xml2js": "^0.4.23"
+    "xml2js": "^0.4.23",
+    "bcrypt": "^3.0.6",
+    "jsonwebtoken": "^8.5.1",
+    "nedb": "^1.8.0"
   }
 }

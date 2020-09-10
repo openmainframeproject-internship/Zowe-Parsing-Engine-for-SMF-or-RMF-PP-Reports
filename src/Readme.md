@@ -4,11 +4,8 @@ To be structured as needed by project team.
 Please document here
 | Subdirectory Name | Description |
 |---|---|
-| | |
-| | |
-| | |
-| | |
-| | |
+| App_server | Directory For Project Controller Functions, Parser and Routes |
+| sslcert | Directory for Server certificate and private key |
 
 # RMF Parsing Engine (ZEBRA)
    Zebra is a Performance Monitoring tool that converts RMF monitor I and III data into JSON Format. It also Stores realtime data into MongoDB and Plot realtime Workload and CPU Utilization chart using Grafana. Zebra can be used to Parse static RMF Monotor I XML file into JSON.

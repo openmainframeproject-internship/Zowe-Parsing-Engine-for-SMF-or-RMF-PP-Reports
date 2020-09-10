@@ -25,8 +25,8 @@ monitoring tools out there.
 - [X] Detailed Design
 - [X] 2nd Stipend Released
 - [X] Mid-term Evaluation (by mentor)
-- [X] Code Project (with comments) in progress
-- [ ] Testing
+- [X] Code Project (with comments)
+- [X] Testing
 - [ ] Video Presentation of the Project
 - [ ] Final Evaluation (by mentor)
 - [ ] 3rd Stipend Released

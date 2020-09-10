@@ -6,6 +6,7 @@ var logger = require('morgan');
 var Zconfig = require("./Zconfig");
 var useMongo = Zconfig["useMongo"];
 var useProm = Zconfig["usePrometheus"];
+require("./nedbAdmin");
 if (useMongo === 'true'){
   require('./mongo');
   require("./app_server/Models/db");
@@ -19,10 +20,6 @@ var mainRouter = require('./app_server/routes/mainRouter');
 var rmf3Router = require('./app_server/routes/rmf3Router');
 var rmfppRouter = require('./app_server/routes/rmfppRouter');
 var staticRouter = require('./app_server/routes/staticXMLRouter');
-
-
-//
-
 
 var app = express();
 
@@ -60,12 +57,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-//
- 
-
-
-//
-
 
 module.exports = app;
