@@ -7,7 +7,7 @@
     "mongourl":"localhost",
     "dbinterval":"100",
     "dbname":"ZebraOne",
-    "appurl":"localhost",
+    "appurl":"127.0.0.1",
     "appport":"3090",
     "mongoport":"27017",
     "ppminutesInterval":"30",
