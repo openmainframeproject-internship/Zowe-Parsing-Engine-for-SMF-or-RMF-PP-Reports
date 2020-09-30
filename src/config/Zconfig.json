@@ -1,0 +1,23 @@
+{
+    "ddsbaseurl":"salisuali.com",
+    "ddsbaseport":"9000",
+    "rmf3filename":"rmfm3.xml",
+    "rmfppfilename":"rmfpp.xml",
+    "mvsResource":",SYS,_IMAGE",
+    "mongourl":"localhost",
+    "dbinterval":"100",
+    "dbname":"ZebraOne",
+    "appurl":"localhost",
+    "appport":"3090",
+    "mongoport":"27017",
+    "ppminutesInterval":"30",
+    "rmf3interval":"100",
+    "httptype":"http",
+    "useDbAuth":"false",
+    "dbUser":"myUserAdmin",
+    "dbPassword":"salisu",
+    "authSource":"admin",
+    "useMongo":"false",
+    "usePrometheus":"false",
+    "https": "false"
+}
