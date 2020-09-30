@@ -1,6 +1,6 @@
 /* GET Homepage*/
 var fs = require('fs'); //importing the fs module
-var Zconfig = require("../../Zconfig");
+var Zconfig = require("../../config/Zconfig");
 var path = require("path");
 
 /**  

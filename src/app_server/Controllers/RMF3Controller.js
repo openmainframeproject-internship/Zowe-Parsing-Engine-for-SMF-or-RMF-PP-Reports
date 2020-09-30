@@ -1,7 +1,7 @@
-var request = require('request'); //importing the request module
+const axios = require('axios');
 var RMFMonitor3parser = require('../parser/RMFMonitor3parser') //importing the RMFMonitor3parser file
 var RMFPPparser = require('../parser/RMFPPparser') //importing the RMFPPparser file
-var Zconfig = require("../../Zconfig");
+var Zconfig = require("../../config/Zconfig");
 let baseurl = Zconfig.ddsbaseurl;
 let baseport = Zconfig.ddsbaseport;
 let rmf3filename = Zconfig.rmf3filename;
@@ -19,18 +19,17 @@ let mvsResource = Zconfig.mvsResource;
 function RMFMonitor3getRequest(baseurl, baseport, rmf3filename, urlReport, mvsResource, fn) { //fn is to return value from callback
   //Use backtick for URL string formatting
   var RMF3URL = `https://${baseurl}:${baseport}/gpm/${rmf3filename}?report=${urlReport}&resource=${mvsResource}`; //Dynamically create URL
-  var requestOptions = { //speciying request options for the request module
-    url: RMF3URL,
-    method: "GET",
-  };
-  request(requestOptions, function (err, response, body) { //making a request with a callback function as a parameter 
-    if (err) { // if error
-      fn(err); // return error as callback function result
-    } else if (response.statusCode === 200) { // if response code is 200 OK
-      fn(body); // return response body as callback function result
-    } else {
-      fn(response.statusCode); // return response statuscode as callback function result
-    }
+  axios.get(RMF3URL)
+  .then(function (response) {
+    // handle success
+    fn(response.data);
+  })
+  .catch(function (error) {
+    // handle error
+    fn(error);
+  })
+  .then(function () {
+    // always executed
   });
 }
 
@@ -38,18 +37,17 @@ function RMFMonitor3getRequest(baseurl, baseport, rmf3filename, urlReport, mvsRe
 function RMFMonitor3getInfo(baseurl, baseport, rmf3filenames, mvsResource, fn) { //fn is to return value from callback
   //Use backtick for URL string formatting
   var RMF3URL = `https://${baseurl}:${baseport}/gpm/reports/${rmf3filenames}?resource=${mvsResource}`; //Dynamically create URL
-  var requestOptions = { //speciying request options for the request module
-    url: RMF3URL,
-    method: "GET",
-  };
-  request(requestOptions, function (err, response, body) { //making a request with a callback function as a parameter 
-    if (err) { // if error
-      fn(err); // return error as callback function result
-    } else if (response.statusCode === 200) { // if response code is 200 OK
-      fn(body); // return response body as callback function result
-    } else {
-      fn(response.statusCode); // return response statuscode as callback function result
-    }
+  axios.get(RMF3URL)
+  .then(function (response) {
+    // handle success
+    fn(response.data);
+  })
+  .catch(function (error) {
+    // handle error
+    fn(error);
+  })
+  .then(function () {
+    // always executed
   });
 }
 

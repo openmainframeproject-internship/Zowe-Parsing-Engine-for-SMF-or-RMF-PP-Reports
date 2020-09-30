@@ -5,7 +5,7 @@ const Prometheus = require('prom-client');
 const swaggerdoc = require("../../Zebra_Swagger");
 const swaggerUi = require('swagger-ui-express');
 require('dotenv').config()
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 var nedb = require("../../nedbAdmin")
 const jwt = require("jsonwebtoken")
 let db = nedb.db;

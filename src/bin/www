@@ -7,7 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('zebra:server');
 var http = require('http');
-var Zconfig = require("../Zconfig.json");
+var Zconfig = require("../config/Zconfig");
 var httpsparm = Zconfig["https"];
 var pfx = "undefined" //Zconfig["pfx"];
 var pass = "None" //Zconfig["passhrase"];
@@ -80,6 +80,21 @@ if (httpsparm === "true"){
   app.set('port', port);
   console.log(`http server listening at port ${port}`);
 }
+
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.

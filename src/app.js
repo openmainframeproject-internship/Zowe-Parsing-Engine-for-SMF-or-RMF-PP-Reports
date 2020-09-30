@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var Zconfig = require("./Zconfig");
+var Zconfig = require("./config/Zconfig");
 var useMongo = Zconfig["useMongo"];
 var useProm = Zconfig["usePrometheus"];
 require("./nedbAdmin");

@@ -3,7 +3,7 @@ require('./cpcSchema');
 require('./usageSchema');
 require('./procSchema');
 require("./workloadSchema");
-var Zconfig = require("../../Zconfig.json");
+var Zconfig = require("../../config/Zconfig");
 var mongourl = Zconfig['mongourl'] ;
 var mongoport = Zconfig['mongoport'] ;
 var dbname = Zconfig['dbname'];

@@ -1,5 +1,5 @@
 require('dotenv').config()
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const jwt = require("jsonwebtoken")
 var nedb = require("./nedbAdmin")
 let db = nedb.db;
@@ -15,10 +15,10 @@ module.exports.updatePassword = async function(req, res){
             res.status(400).send("Cannot Find User")
         }
         try{
-            if (await bcrypt.compare(oldpassword, user.password)){
+            if ( bcrypt.compareSync(oldpassword, user.password)){
                 try{
-                    const Salt = await bcrypt.genSalt()
-                    const hashedpassword = await bcrypt.hash(newpassword, Salt)
+                    const Salt = bcrypt.genSaltSync()
+                    const hashedpassword = bcrypt.hashSync(newpassword, Salt)
                     //const user = {name: data.name, password: hashedpassword}
                     db.update({ password: user.password }, {$set: { password: hashedpassword}}, {}, function (err, numReplaced) {
                         if(err){
@@ -46,7 +46,7 @@ module.exports.login  = async function (req, res){
             res.status(400).send("Cannot Find User")
         }else{
             try{
-                if (await bcrypt.compare(req.body.password, user.password)){
+                if (bcrypt.compareSync(req.body.password, user.password)){
                     //Serialise User
                     const username = {name: user.name};
                     const accessToken = generateAccessToken(username);
@@ -107,7 +107,7 @@ function refreshtokendb(fn){
 }
 
 function generateAccessToken(user){
-    return jwt.sign(user, process.env.ACCESS_TOKEN, {expiresIn: "15m"})
+    return jwt.sign(user, process.env.ACCESS_TOKEN, {expiresIn: "1m"})
 }
 
 module.exports.authenticateToken =function (req,res, next) {

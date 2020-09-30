@@ -1,6 +1,6 @@
-var request = require('request'); //importing the request module
+const axios = require('axios');
 var RMFPPparser = require('../parser/RMFPPparser') //importing the RMFPPparser file
-var Zconfig = require("../../Zconfig");
+var Zconfig = require("../../config/Zconfig");
 let baseurl = Zconfig.ddsbaseurl;
 let baseport = Zconfig.ddsbaseport;
 let rmfppfilename = Zconfig.rmfppfilename;
@@ -18,18 +18,17 @@ var minutesInterval = Zconfig.ppminutesInterval;
 function RMFPPgetRequest(baseurl, baseport, rmfppfilename, urlReport, urlDate, fn) { //fn is to return value from callback
   //Use backtick for URL string formatting
   var RMFPPURL = `https://${baseurl}:${baseport}/gpm/${rmfppfilename}?reports=${urlReport}&date=${urlDate}`; //Dynamically create URL
-  var requestOptions = { //speciying request options for the request module
-    url: RMFPPURL,
-    method: "GET",
-  };
-  request(requestOptions, function (err, response, body) { //making a request with a callback function as a parameter
-    if (err) { // if error
-      fn(err); // return error as callback function result
-    } else if (response.statusCode === 200) { // if response code is 200 OK
-      fn(body); // return response body as callback function result
-    } else {
-      fn(response.statusCode); // return response statuscode as callback function result
-    }
+  axios.get(RMFPPURL)
+  .then(function (response) {
+    // handle success
+    fn(response.data);
+  })
+  .catch(function (error) {
+    // handle error
+    fn(error);
+  })
+  .then(function () {
+    // always executed
   });
 };
 

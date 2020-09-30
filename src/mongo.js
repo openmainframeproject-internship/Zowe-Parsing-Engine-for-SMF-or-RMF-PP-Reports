@@ -1,13 +1,13 @@
-const request = require('request');
 let cpcdoc = require("./app_server/Models/cpcSchema")
 let procdoc = require("./app_server/Models/procSchema")
 let usagedoc = require("./app_server/Models/usageSchema")
 let wkldoc = require("./app_server/Models/workloadSchema")
-var Zconfig = require("./Zconfig");
+var Zconfig = require("./config/Zconfig");
 let appbaseurl = Zconfig.appurl;
 let appbaseport = Zconfig.appport;
 let dbinterval = Zconfig.dbinterval;
 let httptype = Zconfig.httptype;
+const axios = require('axios');
 
 console.log('mongo started');
 const cpuRealtimeURL = `${httptype}://${appbaseurl}:${appbaseport}/rmfm3?report=CPC`
@@ -21,16 +21,17 @@ const sysRealtimeURL = `${httptype}://${appbaseurl}:${appbaseport}/rmfm3?reports
  * @param {JSON} fn - A callback function containing the required JSON
  */
 function getdata(appbaseurl, fn){ // Function to make request for JSON using this apps Endpoints
-  request({ //make a GET request to the cpuRealtimeURL
-    url: appbaseurl, // URL to query
-    method: "GET", // Request Method
-  },
-  async function(error, response, body) { //Callback function of the GET Request 
-      if (!error && response.statusCode == 200) { //if response is 200 OK
-        fn(body) //getdata function returns a JSON 
-      }else{ //if response is not 200 OK
-        fn("error") //getdata function returns an Error
-      }
+  axios.get(appbaseurl)
+  .then(function (response) {
+    // handle success
+    fn(response.data);
+  })
+  .catch(function (error) {
+    // handle error
+    fn(error);
+  })
+  .then(function () {
+    // always executed
   });
 }
 
@@ -42,7 +43,7 @@ function getdata(appbaseurl, fn){ // Function to make request for JSON using thi
  */
 async function fedDatabase(data, type, fn ){
   if(data != "error"){ // if data is not equal to error.... getdata function can return error instead of JSON when something goes wrong
-    var JSONBody = JSON.parse(data); //  JSON Parse String Returned by getdata function
+    var JSONBody = data; 
     var parm = JSONBody["title"] // represent the value of title key in JSONBody
     var timestamp = JSONBody["timestart"]; // represent the value of timestart key in JSONBody
 
