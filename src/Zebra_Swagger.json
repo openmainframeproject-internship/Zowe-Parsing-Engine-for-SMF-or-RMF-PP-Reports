@@ -22,7 +22,7 @@
     }
   ],
   "schemes": [
-    "https"
+    "http"
   ],
   "produces": ["application/json;charset=UTF-8"],
   "paths": {

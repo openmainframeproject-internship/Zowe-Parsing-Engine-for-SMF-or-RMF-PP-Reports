@@ -1,6 +1,6 @@
 {
     "ddsbaseurl":"salisuali.com",
-    "ddsbaseport":"9000",
+    "ddsbaseport":"9078",
     "rmf3filename":"rmfm3.xml",
     "rmfppfilename":"rmfpp.xml",
     "mvsResource":",SYS,_IMAGE",
@@ -19,5 +19,7 @@
     "authSource":"admin",
     "useMongo":"false",
     "usePrometheus":"false",
-    "https": "false"
+    "https":"false",
+    "grafanaurl":"localhost",
+    "grafanaport":"3000"
 }

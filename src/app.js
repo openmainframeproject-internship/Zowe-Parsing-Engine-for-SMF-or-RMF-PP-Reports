@@ -6,6 +6,13 @@ var logger = require('morgan');
 var Zconfig = require("./config/Zconfig");
 var useMongo = Zconfig["useMongo"];
 var useProm = Zconfig["usePrometheus"];
+var session = require('express-session');
+
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const _ = require('lodash');
+
 require("./nedbAdmin");
 if (useMongo === 'true'){
   require('./mongo');
@@ -19,6 +26,7 @@ process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 var mainRouter = require('./app_server/routes/mainRouter');
 var rmf3Router = require('./app_server/routes/rmf3Router');
 var rmfppRouter = require('./app_server/routes/rmfppRouter');
+var fileUploadRouter = require('./app_server/routes/fileUploadRouter');
 var staticRouter = require('./app_server/routes/staticXMLRouter');
 
 var app = express();
@@ -29,7 +37,12 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'app_server', 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
+
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(morgan('dev'));
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -37,10 +50,23 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+  key: 'user_sid',
+  secret: 'zebrarmfengine',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+      expires: 604800
+  }
+}));
+
 app.use('/', mainRouter);
 app.use('/rmfm3', rmf3Router);
 app.use('/static', staticRouter);
+app.use('/upload', fileUploadRouter);
 app.use('/rmfpp', rmfppRouter);
+
+app.use(express.static('uploads'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -57,5 +83,13 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.use((req, res, next) => {
+  if (req.cookies.user_sid && !req.session.user) {
+      res.clearCookie('user_sid');        
+  }
+  next();
+});
+
 
 module.exports = app;

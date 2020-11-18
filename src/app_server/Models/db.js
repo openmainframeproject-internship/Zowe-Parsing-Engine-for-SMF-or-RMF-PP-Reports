@@ -18,7 +18,7 @@ var dbURIAuth = `mongodb://${mongourl}:${mongoport}/${dbname}?authSource=${authS
 if (dbauth === 'true'){
     //mongoose.connect(`mongodb://${dbuser}:${dbpwd}@${mongourl}:${mongoport}/${dbname}`,{auth:{authdb:"admin"}, useNewUrlParser: true, useUnifiedTopology: true });
     mongoose.connect(dbURIAuth, {
-        auth:{authdb:"admin"},
+        auth:{authdb: authSource},
         useNewUrlParser: true,
         useUnifiedTopology: true,
         user: dbuser,

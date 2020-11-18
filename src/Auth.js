@@ -4,7 +4,38 @@ const jwt = require("jsonwebtoken")
 var nedb = require("./nedbAdmin")
 let db = nedb.db;
 let dbrefresh = nedb.dbrefresh;
+var Zconfig = require("./config/Zconfig.json");
 
+function parameters(fn){
+    parms = {
+      ddsbaseurl: Zconfig.ddsbaseurl,
+      ddsbaseport: Zconfig.ddsbaseport,
+      rmf3filename: Zconfig.rmf3filename,
+      rmfppfilename: Zconfig.rmfppfilename,
+      mvsResource: Zconfig.mvsResource,
+      mongourl: Zconfig.mongourl,
+      dbinterval: Zconfig.dbinterval,
+      dbname: Zconfig.dbname,
+      appurl: Zconfig.appurl,
+      appport: Zconfig.appport,
+      mongoport: Zconfig.mongoport,
+      ppminutesInterval: Zconfig.ppminutesInterval,
+      rmf3interval: Zconfig.rmf3interval,
+      httptype: Zconfig.httptype,
+      useDbAuth: Zconfig.useDbAuth,
+      dbUser: Zconfig.dbUser,
+      dbPassword: Zconfig.dbPassword,
+      authSource: Zconfig.authSource,
+      useMongo: Zconfig.useMongo,
+      usePrometheus: Zconfig.usePrometheus,
+      https: Zconfig.https,
+      grafanaurl: Zconfig.grafanaurl,
+      grafanaport: Zconfig.grafanaport
+    }
+    fn(parms);
+  }
+
+//Update Password REST API
 module.exports.updatePassword = async function(req, res){
     db.find({ }, async function (err, users) {
         const user = users.find(user => user.name == req.user.name)
@@ -39,6 +70,9 @@ module.exports.updatePassword = async function(req, res){
     })
 }
 
+
+
+//Login for REST API calls
 module.exports.login  = async function (req, res){
     db.find({}, async function (err, users) {
         const user = users.find(user => user.name == req.body.name)
@@ -94,6 +128,38 @@ module.exports.token = function(req, res){
     })
 }
 
+
+module.exports.formRefreshToken = function(rtoken, usersname, fn){
+    var ress = {};
+    refreshtokendb(function(dbrefreshTokens){
+        const refreshtok = rtoken;
+        if (refreshtok == null){
+            fn("null token")
+        } 
+        try{
+            if (!(dbrefreshTokens[0].refreshToken).includes(refreshtok)){
+                fn("wrong token")
+            } 
+            jwt.verify(refreshtok, process.env.REFRESH_TOKEN, (err, user) => {
+                if (err) {
+                }else{
+                    var username = {name: usersname};
+                    const accessToken = generateAccessToken(username);
+                    ress["Access"] = accessToken;
+                    ress["Refresh"] = rtoken;
+
+                    fn(ress)
+                }
+                
+                //res.json({accessToken: accessToken})
+            })
+        }catch(err){
+            fn("Token Generation Failed");
+        }
+      
+    })
+}
+
 module.exports.findAdmin = function (fn){
     db.find({ }, function (err, docs) {
         fn(docs); // logs all of the data in docs
@@ -107,7 +173,7 @@ function refreshtokendb(fn){
 }
 
 function generateAccessToken(user){
-    return jwt.sign(user, process.env.ACCESS_TOKEN, {expiresIn: "1m"})
+    return jwt.sign(user, process.env.ACCESS_TOKEN, {expiresIn: "15m"})
 }
 
 module.exports.authenticateToken =function (req,res, next) {
@@ -119,6 +185,196 @@ module.exports.authenticateToken =function (req,res, next) {
         if (err) return res.sendStatus(403).send("")
         req.user = user
         next();
+    }) 
+
+}
+
+
+
+module.exports.formToken = function(user, fn){
+    var res = {};
+    const username = {name: user};
+    const accessToken = generateAccessToken(username);
+    const refreshToken = jwt.sign(username, process.env.REFRESH_TOKEN);
+    dbrefresh.find({}, function(err, tokens){
+        if(err){
+            res.send(err);
+        }else{
+            if (tokens.length >= 1){
+                dbrefresh.remove({}, {multi: true}, err => {
+                    if (err) {
+                        res.send(err);
+                    }
+                });
+            }
+            dbrefresh.insert({refreshToken: refreshToken});
+        }
+    })
+    res["Access"] = accessToken;
+    res["Refresh"] = refreshToken;
+
+    fn(res);
+}
+
+//Login for UI Form
+module.exports.formLogin  = async function (req, res, next){
+    db.find({}, async function (err, users) {
+        const user = users.find(user => user.name == req.body.name);
+        if( user == null){
+            res.render("login", {lgmsg: "Login Failed"})
+        }else{
+            try{
+                if(bcrypt.compareSync(req.body.password, user.password)){
+                    if (bcrypt.compareSync('Admin', user.password)){
+                        res.render("login", {data: "pwd"})
+                    }else if (bcrypt.compareSync(req.body.password, user.password)){
+                        //Serialise User
+                        const username = {name: user.name};
+                        const accessToken = generateAccessToken(username);
+                        const refreshToken = jwt.sign(username, process.env.REFRESH_TOKEN);
+                        dbrefresh.find({}, function(err, tokens){
+                            if(err){
+                                res.send(err);
+                            }else{
+                                if (tokens.length >= 1){
+                                    dbrefresh.remove({}, {multi: true}, err => {
+                                        if (err) {
+                                            res.send(err);
+                                        }
+                                    });
+                                }
+                                dbrefresh.insert({refreshToken: refreshToken});
+                            }
+                        })
+                        req.session.name = req.body.name;
+                        req.session.password = user.password;
+                        res.redirect("/");
+                    }else{
+                        res.render("login", {lgmsg: "Login Failed"})
+                        //res.send("Login Failed");
+                    }
+                }else{
+                    res.render("login", {lgmsg: "Login Failed"})
+                }
+            } catch(err){
+                res.render("login", {lgmsg: "Login Failed"})
+            }
+        }    
+    }); 
+}
+
+//Update Paasword Form
+module.exports.updatePasswordForm = async function(req, res){
+    db.find({ }, async function (err, users) {
+        const user = users.find(user => user.name == req.body.name)
+        username = req.body.name;
+        oldpassword  = 'Admin';
+        newpassword = req.body.newpassword;
+        cpassword = req.body.cpassword;
+        if( user == null){
+            res.render("login", {data: "pwd"});
+        }
+        try{
+            if ( bcrypt.compareSync(oldpassword, user.password) && newpassword === cpassword){
+                try{
+                    const Salt = bcrypt.genSaltSync()
+                    const hashedpassword = bcrypt.hashSync(newpassword, Salt)
+                    //const user = {name: data.name, password: hashedpassword}
+                    db.update({ password: user.password }, {$set: { password: hashedpassword}}, {}, function (err, numReplaced) {
+                        if(err){
+                            res.render("login", {data: "pwd"})
+                        } else {
+                            const username = {name: req.body.name};
+                            const accessToken = generateAccessToken(username);
+                            const refreshToken = jwt.sign(username, process.env.REFRESH_TOKEN);
+                            dbrefresh.find({}, function(err, tokens){
+                                if(err){
+                                    res.render("login", {data: "pwd"});
+                                }else{
+                                    if (tokens.length >= 1){
+                                        dbrefresh.remove({}, {multi: true}, err => {
+                                            if (err) {
+                                                res.render("login", {data: "pwd"});
+                                            }
+                                        });
+                                    }
+                                    dbrefresh.insert({refreshToken: refreshToken});
+                                }
+                            })
+                            req.session.name = req.body.name;
+                            req.session.password = newpassword;
+                            res.redirect("/");
+                        }
+                    });
+                }catch(err) {
+                    res.render("login", {data: "pwd"})
+                }
+            }else{
+                res.render("login", {data: "pwd", cpmsg: "Password mismatch"})
+                //res.send("")
+            }
+        } catch(err){
+            res.render("login", {data: "pwd"})
+        }
+    })
+}
+
+function tformToken(user, fn){
+    var res = {};
+    const username = {name: user};
+    const accessToken = generateAccessToken(username);
+    const refreshToken = jwt.sign(username, process.env.REFRESH_TOKEN);
+    dbrefresh.find({}, function(err, tokens){
+        if(err){
+            res.send(err);
+        }else{
+            if (tokens.length >= 1){
+                dbrefresh.remove({}, {multi: true}, err => {
+                    if (err) {
+                        res.send(err);
+                    }
+                });
+            }
+            dbrefresh.insert({refreshToken: refreshToken});
+        }
+    })
+    res["Access"] = accessToken;
+    res["Refresh"] = refreshToken;
+
+    fn(res);
+}
+
+module.exports.authenticateFormToken =function (req,res, next) {
+    const token = req.body.access;
+    if(token == null){
+        tformToken(req.session.name, function(data){
+            if (data.Access){
+              parameters(function(parms){
+               res.render("settings", {fdata: data, fparms:parms, acmsg:"Error"});
+              })
+            }else{
+              res.send(data)
+            }
+          })
+        //res.render("settings",{acmsg:"Error"})
+    }
+
+    jwt.verify(token, process.env.ACCESS_TOKEN, (err, user) => {
+        if (err){
+            tformToken(req.session.name, function(data){
+                if (data.Access){
+                  parameters(function(parms){
+                   res.render("settings", {fdata: data, fparms:parms, acmsg:"Error"});
+                  })
+                }else{
+                  res.send(data)
+                }
+            })
+        }else{
+            //req.user = user
+            next()
+        }
+        
     }) 
 
 }
