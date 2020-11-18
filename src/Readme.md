@@ -22,6 +22,23 @@ Please document here
 # Use Zebra
   To Use Zebra, You'll need to configure the application parameters. These parameters can be configured by simply editing the Zconfig.json file in the root directory or using Zebra's /addsetting function while Zebra instance is running.
  
+# Zebra Default Port Definitions  
+
+  Port 3000: Grafana UI dashboard access port
+  
+  Port 3090: Main web-based browser page and API service port(http)
+  Port 3091: Main web-based browser page and API service port(https)
+ 
+  Port 9090: Prometheus interface port
+    
+  Port 27017: Default MongoDB access port
+  
+  
+  
+  
+  
+  
+  
  ## Configure Zebra Using Endpoint
    Zebra’s configuration gives users the flexibility to run the app according to their needs.  Zebra provides “/addsettings” endpoint for editing config values. This endpoint can take one or more parameters recognized by zebra at once. E.g.  
   http://localhost:3090/addsettings?appurl=127.0.0.1
