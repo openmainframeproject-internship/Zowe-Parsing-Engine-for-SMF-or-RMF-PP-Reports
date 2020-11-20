@@ -1,16 +1,16 @@
 var mongoose = require( 'mongoose' );
-require('./cpcSchema');
-require('./usageSchema');
-require('./procSchema');
-require("./workloadSchema");
+require('./cpcdocSchema');
+require('./usagedocSchema');
+require('./procdocSchema');
+require("./workloaddocSchema");
 var Zconfig = require("../../config/Zconfig");
-var mongourl = Zconfig['mongourl'] ;
-var mongoport = Zconfig['mongoport'] ;
+var mongourl = Zconfig['mongourl'];
+var mongoport = Zconfig['mongoport'];
 var dbname = Zconfig['dbname'];
 var dbauth = Zconfig['useDbAuth'];
 var dbuser = Zconfig['dbUser'];
 var dbpwd = Zconfig['dbPassword'];
-var authSource = Zconfig['authSource']
+var authSource = Zconfig['authSource'];
 //var user = dbuser.replace(/^"(.*)"$/, '$1');
 
 var dbURI = `mongodb://${mongourl}:${mongoport}/${dbname}`; //no authentication
@@ -72,7 +72,7 @@ process.on('SIGINT', function () {
     });
 });
 process.on('SIGTERM', function() {
-    gracefulShutdown('Heroku app shutdown', function () {
+    gracefulShutdown('app shutdown', function () {
     process.exit(0);
     });
 });

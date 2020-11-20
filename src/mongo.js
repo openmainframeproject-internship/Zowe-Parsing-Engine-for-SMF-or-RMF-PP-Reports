@@ -1,7 +1,7 @@
-let cpcdoc = require("./app_server/Models/cpcSchema")
-let procdoc = require("./app_server/Models/procSchema")
-let usagedoc = require("./app_server/Models/usageSchema")
-let wkldoc = require("./app_server/Models/workloadSchema")
+let cpcdoc = require("./app_server/Models/cpcSchema");
+let procdoc = require("./app_server/Models/procSchema");
+let usagedoc = require("./app_server/Models/usageSchema");
+let wkldoc = require("./app_server/Models/workloadSchema");
 var Zconfig = require("./config/Zconfig");
 let appbaseurl = Zconfig.appurl;
 let appbaseport = Zconfig.appport;
@@ -10,9 +10,9 @@ let httptype = Zconfig.httptype;
 const axios = require('axios');
 
 console.log('mongo started');
-const cpuRealtimeURL = `${httptype}://${appbaseurl}:${appbaseport}/rmfm3?report=CPC`
-const procRealtimeURL = `${httptype}://${appbaseurl}:${appbaseport}/rmfm3?report=PROC`
-const usageRealtimeURL = `${httptype}://${appbaseurl}:${appbaseport}/rmfm3?report=USAGE`
+const cpuRealtimeURL = `${httptype}://${appbaseurl}:${appbaseport}/rmfm3?report=CPC`;
+const procRealtimeURL = `${httptype}://${appbaseurl}:${appbaseport}/rmfm3?report=PROC`;
+const usageRealtimeURL = `${httptype}://${appbaseurl}:${appbaseport}/rmfm3?report=USAGE`;
 const sysRealtimeURL = `${httptype}://${appbaseurl}:${appbaseport}/rmfm3?reports=SYSINFO`;
 
 /**

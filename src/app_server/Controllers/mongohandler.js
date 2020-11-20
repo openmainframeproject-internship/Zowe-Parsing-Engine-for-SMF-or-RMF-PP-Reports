@@ -1,11 +1,11 @@
 var timehandler = require("./RMFPPcontroller");
-let cpcdoc = require("../Models/cpcSchema")
-let procdoc = require("../Models/procSchema")
-let usagedoc = require("../Models/usageSchema")
-let wkldoc = require("../Models/workloadSchema")
+let cpcdoc = require("../Models/cpcdocSchema")
+let procdoc = require("../Models/procdocSchema")
+let usagedoc = require("../Models/usagedocSchema")
+let wkldoc = require("../Models/workloaddocSchema")
 var MongoClient = require('mongodb').MongoClient;
 //var mongoose = require( 'mongoose' );
-var url = "mongodb://localhost:27017/";
+//var url = "mongodb://localhost:27017/";
 var Zconfig = require("../../config/Zconfig");
 var mongourl = Zconfig['mongourl'] ;
 var mongoport = Zconfig['mongoport'] ;
@@ -164,28 +164,28 @@ function cpcDoc(fn){
             pass: dbpwd
         }, function(err, db) {
             var dbo = db.db(dbname);
-            dbo.collection("cpcactivities").findOne({}, function(err, result) {
+            dbo.collection("cpcactivities").find({}).toArray(function(err, result){
                 if (err) throw err;
                 try{
-                    fn(result.CPU);
+                    fn(result);
                 }catch(err){
                     fn({})
                 }
                 db.close();
-            });
+            })
         });
     }else{
         MongoClient.connect(dbURI, function(err, db) {
             var dbo = db.db(dbname);
-            dbo.collection("cpcactivities").findOne({}, function(err, result) {
+            dbo.collection("cpcactivities").find({}).toArray(function(err, result){
                 if (err) throw err;
                 try{
-                    fn(result.CPU);
+                    fn(result);
                 }catch(err){
                     fn({})
                 }
                 db.close();
-            });
+            })
         });   
     }
 }
@@ -201,28 +201,28 @@ function procDoc(fn){
             pass: dbpwd
         }, function(err, db) {
             var dbo = db.db(dbname);
-            dbo.collection("procactivities").findOne({}, function(err, result) {
+            dbo.collection("procactivities").find({}).toArray(function(err, result){
                 if (err) throw err;
                 try{
-                    fn(result.Proc);
+                    fn(result);
                 }catch(err){
                     fn({})
                 }
                 db.close();
-            });
+            })
         });
     }else{
         MongoClient.connect(dbURI, function(err, db) {
             var dbo = db.db(dbname);
-            dbo.collection("procactivities").findOne({}, function(err, result) {
+            dbo.collection("procactivities").find({}).toArray(function(err, result){
                 if (err) throw err;
                 try{
-                    fn(result.Proc);
+                    fn(result);
                 }catch(err){
                     fn({})
                 }
                 db.close();
-            });
+            })
         });   
     }
 }
@@ -238,28 +238,28 @@ function usageDoc(fn){
             pass: dbpwd
         }, function(err, db) {
             var dbo = db.db(dbname);
-            dbo.collection("usageactivities").findOne({}, function(err, result) {
+            dbo.collection("usageactivities").find({}).toArray(function(err, result){
                 if (err) throw err;
                 try{
-                    fn(result.Usage);
+                    fn(result);
                 }catch(err){
                     fn({})
                 }
                 db.close();
-            });
+            })
         });
     }else{
         MongoClient.connect(dbURI, function(err, db) {
             var dbo = db.db(dbname);
-            dbo.collection("usageactivities").findOne({}, function(err, result) {
+            dbo.collection("usageactivities").find({}).toArray(function(err, result){
                 if (err) throw err;
                 try{
-                    fn(result.Usage);
+                    fn(result);
                 }catch(err){
                     fn({})
                 }
                 db.close();
-            });
+            })
         });   
     }
 }
@@ -276,28 +276,28 @@ function wlkDoc(fn){
             pass: dbpwd
         }, function(err, db) {
             var dbo = db.db(dbname);
-            dbo.collection("workloadactivities").findOne({}, function(err, result) {
+            dbo.collection("workloadactivities").find({}).toArray(function(err, result){
                 if (err) throw err;
                 try{
-                    fn(result.Workload);
+                    fn(result);
                 }catch(err){
                     fn({})
                 }
                 db.close();
-            });
+            })
         });
     }else{
         MongoClient.connect(dbURI, function(err, db) {
             var dbo = db.db(dbname);
-            dbo.collection("workloadactivities").findOne({}, function(err, result) {
+            dbo.collection("workloadactivities").find({}).toArray(function(err, result){
                 if (err) throw err;
                 try{
-                    fn(result.Workload);
+                    fn(result);
                 }catch(err){
                     fn({})
                 }
                 db.close();
-            });
+            })
         });   
     }
 }
@@ -305,8 +305,8 @@ function wlkDoc(fn){
 function filterDate(data, filterdate, fn){
     var filterResult = [];
     for (k in data){
-        var elemtimestamp = (data[k].Timestamp).split(" ");
-        var elemdate = elemtimestamp[0];
+        //var elemtimestamp = (data[k].Timestamp).split(" ");
+        var elemdate = data[k].date;
         var elemsplit = elemdate.split("/");
         var elemMonth = elemsplit[0];
         var elemDay = elemsplit[1];
@@ -325,8 +325,8 @@ function filterDate(data, filterdate, fn){
 function filterDuration(data, duration, fn){
     var filterResult = [];
     for (k in data){
-        var elemtimestamp = (data[k].Timestamp).split(" ");
-        var elemtime = elemtimestamp[1];
+        //var elemtimestamp = (data[k].Timestamp).split(" ");
+        var elemtime = data[k].time;
         var elemsplit = elemtime.split(":");
         var elemHour = elemsplit[0];
         var elemMinute = elemsplit[1];
@@ -355,8 +355,8 @@ function filterDuration(data, duration, fn){
 function filterTime(data, time, fn){
     var filterResult = [];
     for (k in data){
-        var elemtimestamp = (data[k].Timestamp).split(" ");
-        var elemtime = elemtimestamp[1];
+        //var elemtimestamp = (data[k].Timestamp).split(" ");
+        var elemtime = data[k].time;
         var elemsplit = elemtime.split(":");
         var elemHour = elemsplit[0];
         var elemMinute = elemsplit[1];

@@ -32,7 +32,9 @@ block content
                 .slideshow-container
                     - for(file of cpcdata)
                         .mySlides.faded
-                            h6(style={"color":"red","margin-left":"5%"})= `Timestamp : ${file.Timestamp}`
+                            h6(style={"color":"red","margin-left":"5%"})= `Title : ${file.title}`
+                            h6(style={"color":"red","margin-left":"5%"})= `Date : ${file.date}`
+                            h6(style={"color":"red","margin-left":"5%"})= `Time : ${file.time}`
                             h6(style={"color":"red","margin-left":"5%"})= 'Captions'
                             if(file.caption)
                                 ul(style={"color":"red","margin-left":"5%"})
@@ -123,7 +125,9 @@ block content
                 .slideshow-container
                     - for(file of procdata)
                         .mySlides.faded
-                            h6(style={"color":"red","margin-left":"5%"})= `Timestamp : ${file.Timestamp}`
+                            h6(style={"color":"red","margin-left":"5%"})= `Title : ${file.title}`
+                            h6(style={"color":"red","margin-left":"5%"})= `Date : ${file.date}`
+                            h6(style={"color":"red","margin-left":"5%"})= `Time : ${file.time}`
                             h6(style={"color":"red","margin-left":"5%"})= 'Captions'
                             if(file.caption)
                                 ul(style={"color":"red","margin-left":"5%"})
@@ -195,7 +199,9 @@ block content
                 .slideshow-container
                     - for(file of usagedata)
                         .mySlides.faded
-                            h6(style={"color":"red","margin-left":"5%"})= `Timestamp : ${file.Timestamp}`
+                            h6(style={"color":"red","margin-left":"5%"})= `Title : ${file.title}`
+                            h6(style={"color":"red","margin-left":"5%"})= `Date : ${file.date}`
+                            h6(style={"color":"red","margin-left":"5%"})= `Time : ${file.time}`
                             h6(style={"color":"red","margin-left":"5%"})= 'Captions'
                             if(file.caption)
                                 ul(style={"color":"red","margin-left":"5%"})
@@ -273,7 +279,9 @@ block content
                 .slideshow-container
                     - for(file of wlkdata)
                         .mySlides.faded
-                            h6(style={"color":"red","margin-left":"5%"})= `Timestamp : ${file.Timestamp}`
+                            h6(style={"color":"red","margin-left":"5%"})= `Title : ${file.title}`
+                            h6(style={"color":"red","margin-left":"5%"})= `Date : ${file.date}`
+                            h6(style={"color":"red","margin-left":"5%"})= `Time : ${file.time}`
                             h6(style={"color":"red","margin-left":"5%"})= 'Captions'
                             if(file.Caption)
                                 ul(style={"color":"red","margin-left":"5%"})
@@ -418,7 +426,7 @@ block content
                         a.prev(onclick='plusSlides(-1)') &#x276E;
                         a.next(onclick='plusSlides(1)') &#x276F;
             else
-                h6(style={"margin-top":"10px", "text-align": "center"}) No USAGE data available
+                h6(style={"margin-top":"10px", "text-align": "center"}) No Workload data available
 
         else if(nodata)
             h6(style={"margin-top":"10px", "text-align": "center"}) Query did not return any Data
