@@ -129,37 +129,6 @@ module.exports.token = function(req, res){
 }
 
 
-module.exports.formRefreshToken = function(rtoken, usersname, fn){
-    var ress = {};
-    refreshtokendb(function(dbrefreshTokens){
-        const refreshtok = rtoken;
-        if (refreshtok == null){
-            fn("null token")
-        } 
-        try{
-            if (!(dbrefreshTokens[0].refreshToken).includes(refreshtok)){
-                fn("wrong token")
-            } 
-            jwt.verify(refreshtok, process.env.REFRESH_TOKEN, (err, user) => {
-                if (err) {
-                }else{
-                    var username = {name: usersname};
-                    const accessToken = generateAccessToken(username);
-                    ress["Access"] = accessToken;
-                    ress["Refresh"] = rtoken;
-
-                    fn(ress)
-                }
-                
-                //res.json({accessToken: accessToken})
-            })
-        }catch(err){
-            fn("Token Generation Failed");
-        }
-      
-    })
-}
-
 module.exports.findAdmin = function (fn){
     db.find({ }, function (err, docs) {
         fn(docs); // logs all of the data in docs
@@ -190,6 +159,36 @@ module.exports.authenticateToken =function (req,res, next) {
 }
 
 
+module.exports.formRefreshToken = function(rtoken, usersname, fn){
+    var ress = {};
+    refreshtokendb(function(dbrefreshTokens){
+        const refreshtok = rtoken;
+        if (refreshtok == null){
+            fn("null token")
+        } 
+        try{
+            if (!(dbrefreshTokens[0].refreshToken).includes(refreshtok)){
+                fn("wrong token")
+            } 
+            jwt.verify(refreshtok, process.env.REFRESH_TOKEN, (err, user) => {
+                if (err) {
+                }else{
+                    var username = {name: usersname};
+                    const accessToken = generateAccessToken(username);
+                    ress["Access"] = accessToken;
+                    ress["Refresh"] = rtoken;
+
+                    fn(ress)
+                }
+                
+                //res.json({accessToken: accessToken})
+            })
+        }catch(err){
+            fn("Token Generation Failed");
+        }
+      
+    })
+}
 
 module.exports.formToken = function(user, fn){
     var res = {};

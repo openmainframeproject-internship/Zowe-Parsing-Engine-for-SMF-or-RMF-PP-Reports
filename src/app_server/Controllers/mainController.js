@@ -4,10 +4,13 @@ var Zconfig = require("../../config/Zconfig");
 var path = require("path");
 var  Auth = require('../../Auth');
 
-
+/**
+ * parameters function reads the parameters in the Zconfig file
+ * @param {Object} fn - returns the parameters from Zconfig file and their value
+ */
 function parameters(fn){
   parms = {
-    ddsbaseurl: Zconfig.ddsbaseurl,
+    ddsbaseurl: Zconfig.ddsbaseurl, 
     ddsbaseport: Zconfig.ddsbaseport,
     rmf3filename: Zconfig.rmf3filename,
     rmfppfilename: Zconfig.rmfppfilename,
@@ -31,7 +34,7 @@ function parameters(fn){
     grafanaurl: Zconfig.grafanaurl,
     grafanaport: Zconfig.grafanaport
   }
-  fn(parms);
+  fn(parms); //return the parameters
 }
 /**  
  * home Function displays a welcome message                                                    
@@ -39,12 +42,11 @@ function parameters(fn){
  * Endpoint does not take any parameter                                                        
  */
 module.exports.home = async function(req, res){ //Controller function for Index page/Home page
-  if(req.session.name){
-    res.render("index",{msg:"Admin"});
-  }else{
-    res.render("index");
+  if(req.session.name){ //Check if User login session is available
+    res.render("index",{msg:"Admin"}); // render the homepage wih Admin previledge
+  }else{ // if login session not available
+    res.render("index"); //render the homepage with user previledge
   }
-   // Express displays a welcome message
 };
 
 /**  
@@ -63,9 +65,9 @@ module.exports.settings = function(req,res){ //Controller Function for displayin
  * Endpoint can take multiple parameters recognised by the addSettings Function                
  */
 module.exports.addSettings = function(req,res){ //Controller function for adding/editing App settings
-  var queryPrameterKeys = Object.keys(req.body);
-  for (i in queryPrameterKeys){
-    var parameterKey = queryPrameterKeys[i];
+  var queryPrameterKeys = Object.keys(req.body); //make a array of the objects in request body
+  for (i in queryPrameterKeys){ //loop through the array above
+    var parameterKey = queryPrameterKeys[i]; // select the parameter from the array at index i
     switch(parameterKey){
       case "ddsurl": //if user specify a value for ddsurl parameter in the URL
         Zconfig['ddsbaseurl'] = req.body.ddsurl; // Change/add ddsbaseurl key to Zconfig file, with the value specified by user for ddsurl
@@ -139,10 +141,15 @@ module.exports.addSettings = function(req,res){ //Controller function for adding
   res.json(Zconfig); // Express returns JSON of the App settings from Zconfig.json file
 }
 
+/**  
+ * addFormSettings Function controls adding/modifying settings used by the app in Zconfig.json file from Zebra UI 
+ * Endpoint: /addSetting                                                                                                         
+ * Endpoint can take multiple parameters recognised by the addFormSettings Function                
+ */
 module.exports.addFormSettings = function(req,res){ //Controller function for adding/editing App settings
-  var queryPrameterKeys = Object.keys(req.body);
-  for (i in queryPrameterKeys){
-    var parameterKey = queryPrameterKeys[i];
+  var queryPrameterKeys = Object.keys(req.body); //make a array of the objects in request body
+  for (i in queryPrameterKeys){ // loop through the array above
+    var parameterKey = queryPrameterKeys[i]; // select the parameter from the array at index i
     switch(parameterKey){
       case "ddsurl": //if user specify a value for ddsurl parameter in the URL
         Zconfig['ddsbaseurl'] = req.body.ddsurl; // Change/add ddsbaseurl key to Zconfig file, with the value specified by user for ddsurl
@@ -213,13 +220,13 @@ module.exports.addFormSettings = function(req,res){ //Controller function for ad
     }
    }
   fs.writeFile("./config/Zconfig.json", JSON.stringify(Zconfig), 'utf-8', function(err, data) {}); // Save all new/modified settings to Zconfig file
-  Auth.formToken(req.session.name, function(data){
-    if (data.Access){
-      parameters(function(parms){
-       res.render("settings", {fdata: data, fparms:parms, scmsg:"success"});
+  Auth.formToken(req.session.name, function(data){ //Authenticate the Access Token from the UI
+    if (data.Access){ //if token is valid, check data returned by the authentication function
+      parameters(function(parms){ // read the parameters and their values from Zconfig file
+       res.render("settings", {fdata: data, fparms:parms, scmsg:"success"}); // render the settings page with the updated parameters and a success message
       })
-    }else{
-      res.send(data)
+    }else{ // if token is not valid
+      res.send(data) // send the data returned by the authentication function
     }
   })
 }

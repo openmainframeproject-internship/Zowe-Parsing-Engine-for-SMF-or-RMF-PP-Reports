@@ -1,7 +1,11 @@
-let cpcdoc = require("./app_server/Models/cpcSchema");
-let procdoc = require("./app_server/Models/procSchema");
-let usagedoc = require("./app_server/Models/usageSchema");
-let wkldoc = require("./app_server/Models/workloadSchema");
+let cpcdoci = require("./app_server/Models/cpcdocSchema");
+let cpcdoc = cpcdoci.cpcdocs;
+let procdoci = require("./app_server/Models/procdocSchema");
+let procdoc = procdoci.procdocs;
+let usagedoci = require("./app_server/Models/usagedocSchema");
+let usagedoc = usagedoci.usagedocs;
+let workloaddoci = require("./app_server/Models/workloaddocSchema");
+let workloaddoc = workloaddoci.wokloaddocs;
 var Zconfig = require("./config/Zconfig");
 let appbaseurl = Zconfig.appurl;
 let appbaseport = Zconfig.appport;
@@ -45,128 +49,72 @@ async function fedDatabase(data, type, fn ){
   if(data != "error"){ // if data is not equal to error.... getdata function can return error instead of JSON when something goes wrong
     var JSONBody = data; 
     var parm = JSONBody["title"] // represent the value of title key in JSONBody
-    var timestamp = JSONBody["timestart"]; // represent the value of timestart key in JSONBody
+    var timestamp = (JSONBody["timestart"]).split(" "); // represent the value of timestart key in JSONBody
+    var date = timestamp[0];
+    var time = timestamp[1];
 
     if(type === 'CPC'){ // if data type is equal to CPC
-      cpcdoc.exists({ Report: parm }, async function(err, result) { //Check MongoDB CPC collection for existence of a document with JSONBody title value for report key 
-        if (result === false) { // if document with JSONBody title value does not exist
-          var newCpcDoc = new cpcdoc({ // create new document in the CPC collection
-          Report: parm // use JSONBody title as the value for Report field
-          });
-          newCpcDoc.save((err, newCpcDoc) => { //save new CPU document into MongoDB CPC Collection 
-            if(err){
-              console.log('error');
-            } else{
-              console.log(`${parm} created Successfully`);
-            }
-          });
-  
-        } else { //if document with JSONBody title value does exist 
-          const existingCpcDoc = await cpcdoc.findOne({ Report: parm }) // Select that document
-          existingCpcDoc.CPU.push({ // Push the following key value pairs as subdocument
-          Timestamp: timestamp, // JSONBody timestart for Timestamp Key
-          caption: JSONBody["caption"], // JSONBody caption for caption Key
-          lpar: JSONBody["table"] // JSONBody table for lpar Key
-          })
-  
-          existingCpcDoc.save((err, existingCpcDoc) => { // save Subdocument to existing Document
-            if(err){
-              console.log('error');
-            } else{
-              console.log(`${parm} Updated Successflly`);
-            }
-          })
-        }
-      });
-    }else if(type === 'PROC'){ // if data type is equal to PROC
-      procdoc.exists({ Report: parm }, async function(err, result) { //Check MongoDB PROC collection for existence of a document with JSONBody title value for report key 
-        if (result === false) { // if document with JSONBody title value does not exist
-          var newProcDoc = new procdoc({ // create new document in the PROC collection
-          Report: parm // use JSONBody title as the value for Report field
-          });
-          newProcDoc.save((err, newProcDoc) => { //save new PROC document into MongoDB PROC Collection
-            if(err){
-              console.log('error');
-            } else{
-              console.log(`${parm} created Successfully`);
-            }
-          });
-        } else { //if document with JSONBody title value does exist 
-          const existingProcDoc = await procdoc.findOne({ Report: parm }) // Select that document
-          existingProcDoc.Proc.push({ // Push the following key value pairs as subdocument
-          Timestamp: timestamp, // JSONBody timestart for Timestamp Key
-          lpar_proc: JSONBody["table"] // JSONBody table for lpar Key
-          })
-  
-          existingProcDoc.save((err, existingProcDoc) => { // save Subdocument to existing Document
-            if(err){
-              console.log('error');
-            } else{
-              console.log(`${parm} Updated Successflly`);
-            }
-          })
-        }
-      });
-    }else if(type === 'USAGE'){ // if data type is equal to USAGE
-      usagedoc.exists({ Report: parm }, async function(err, result) { //Check MongoDB USAGE collection for existence of a document with JSONBody title value for report key 
-        if (result === false) { // if document with JSONBody title value does not exist
-          var newUsageDoc = new usagedoc({ // create new document in the USAGE collection
-          Report: parm // use JSONBody title as the value for Report field
-          });
-          newUsageDoc.save((err, newUsageDoc) => { //save newUSAGE document into MongoDB PROC Collection
-            if(err){
-              console.log('error');
-            } else{
-              console.log(`${parm} created Successfully`);
-            }
-          });
-        } else { //if document with JSONBody title value does exist
-          const existingUsageDoc = await usagedoc.findOne({ Report: parm }) // Select that document
-          existingUsageDoc.Usage.push({ // Push the following key value pairs as subdocument
-          Timestamp: timestamp, // JSONBody timestart for Timestamp Key
-          lpar_usage: JSONBody["table"] // JSONBody table for lpar Key
-          })
-          existingUsageDoc.save((err, existingUsageDoc) => { // save Subdocument to existing Document
-            if(err){
-              console.log('error');
-            } else{
-              console.log(`${parm} Updated Successflly`);
-            }
-          })
-        }
-      });
-    }else if(type === 'WKL'){ // if data type is equal to CPC
-      wkldoc.exists({ Report: parm }, async function(err, result) { //Check MongoDB CPC collection for existence of a document with JSONBody title value for report key 
-        if (result === false) { // if document with JSONBody title value does not exist
-          var newwklDoc = new wkldoc({ // create new document in the Workload collection
-          Report: parm // use JSONBody title as the value for Report field
-          });
-          newwklDoc.save((err, newwklDoc) => { //save new Workload document into MongoDB Workload Collection 
-            if(err){
-              console.log('error');
-            } else{
-              console.log(`${parm} created Successfully`);
-            }
-          });
-  
-        } else { //if document with JSONBody title value does exist 
-          const existingwklDoc = await wkldoc.findOne({ Report: parm }) // Select that document
-          existingwklDoc.Workload.push({ // Push the following key value pairs as subdocument
-          Timestamp: timestamp, // JSONBody timestart for Timestamp Key
-          Caption: JSONBody["caption"], // JSONBody caption for caption Key
-          Class: JSONBody["table"] // JSONBody table for Class Key
-          })
-  
-          existingwklDoc.save((err, existingwklDoc) => { // save Subdocument to existing Document
+        var cpc = new cpcdoc({ // Push the following key value pairs as subdocument
+            title: parm,
+            date: date,
+            time: time, // JSONBody timestart for Timestamp Key
+            caption: JSONBody["caption"], // JSONBody caption for caption Key
+            lpar: JSONBody["table"] // JSONBody table for lpar Key
+        })
+
+        cpc.save((err, cpc) => { // save Subdocument to existing Document
           if(err){
             console.log('error');
           } else{
-            console.log(`${parm} Updated Successflly`);
+            console.log(`CPC Updated Successflly`);
           }
-          
-          })
+        })
+    }else if(type === 'PROC'){ // if data type is equal to PROC
+        var proc = new procdoc({ // Push the following key value pairs as subdocument
+            title: parm,
+            date: date,
+            time: time, 
+            lpar_proc: JSONBody["table"] // JSONBody table for lpar Key
+        })
+
+        proc.save((err, Proc) => { // save Subdocument to existing Document
+          if(err){
+            console.log('error');
+          } else{
+            console.log(`PROC Updated Successflly`);
+          }
+        })
+    }else if(type === 'USAGE'){ // if data type is equal to USAGE
+        var usage = new usagedoc({ // Push the following key value pairs as subdocument
+            title: parm,
+            date: date,
+            time: time,
+            lpar_usage: JSONBody["table"] // JSONBody table for lpar Key
+        })
+        usage.save((err, USage) => { // save Subdocument to existing Document
+          if(err){
+            console.log('error');
+          } else{
+            console.log(`USAGE Updated Successflly`);
+          }
+        })
+    }else if(type === 'WKL'){ // if data type is equal to CPC
+        var workload =  new workloaddoc({ // Push the following key value pairs as subdocument
+            title: parm,
+            date: date,
+            time: time,
+            Caption: JSONBody["caption"], // JSONBody caption for caption Key
+            Class: JSONBody["table"] // JSONBody table for Class Key
+        })
+    
+        workload.save((err, wkl) => { // save Subdocument to existing Document
+        if(err){
+            console.log('error');
+        } else{
+            console.log(`Workload Updated Successflly`);
         }
-      });
+            
+        })
     }
   }
 }

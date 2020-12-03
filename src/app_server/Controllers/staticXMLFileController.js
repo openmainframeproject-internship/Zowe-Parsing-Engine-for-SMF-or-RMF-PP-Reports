@@ -51,9 +51,8 @@ module.exports.staticXMLtoJSON = function(req,res){
 
 module.exports.uploadFile = function(req, res){
     var fileType = (req.body.type).toUpperCase();
-    //console.log("app " + appURL)
     try {
-        if(!req.file) {
+        if(!req.file) { //if file parameter is not in request
             res.send({
                 status: false,
                 message: 'No file uploaded'
@@ -84,7 +83,6 @@ module.exports.uploadFile = function(req, res){
 
 module.exports.parseFile = function(req, res){
     var fileType = (req.body.type).toUpperCase();
-    //console.log("app " + appURL)
     try {
         if(!req.query.file) {
             res.send({

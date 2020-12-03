@@ -15,7 +15,7 @@ const _ = require('lodash');
 
 require("./nedbAdmin");
 if (useMongo === 'true'){
-  require('./newmongo');
+  require('./mongo');
   require("./app_server/Models/db");
 }
 if (useProm === 'true'){
