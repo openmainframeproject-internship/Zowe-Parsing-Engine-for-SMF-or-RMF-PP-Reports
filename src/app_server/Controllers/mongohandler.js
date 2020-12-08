@@ -17,7 +17,7 @@ var authSource = Zconfig['authSource']
 //var user = dbuser.replace(/^"(.*)"$/, '$1');
 
 var dbURI = `mongodb://${mongourl}:${mongoport}/${dbname}`; //MongoDB URI with no authentication
-var dbURIAuth = `mongodb://${mongourl}:${mongoport}/${dbname}?authSource=${authSource}`; //MongoDB URI with authentication
+var dbURIAuth = `mongodb://${dbuser}:${dbpwd}@${mongourl}:${mongoport}/${dbname}?authMechanism=DEFAULT&authSource=${authSource}`; //MongoDB URI with authentication
 
 /**
  * mongoReport handles the presentation of MongoDB data in Zebra UI
@@ -151,13 +151,7 @@ module.exports.mongoReport = function(req, res) {
  */
 function cpcDoc(fn){
     if (dbauth === 'true'){ // if user has specified database authentication
-        MongoClient.connect(dbURIAuth, { //connect to MongoDB using the URI with Authentication 
-            auth:{authdb:authSource}, // use the authSourse value from Zconfig file
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            user: dbuser, //use dbuser value from Zconfig file
-            pass: dbpwd //use dbuser value from Zconfig file
-        }, function(err, db) {
+        MongoClient.connect(dbURIAuth, function(err, db) {
             var dbo = db.db(dbname); // use dbname from Zconfig file
             dbo.collection("cpcactivities").find({}).toArray(function(err, result){ //make an array of all data in cpcactivities 
                 if (err) throw err; //if there is an error, throw it
@@ -187,13 +181,7 @@ function cpcDoc(fn){
 
 function procDoc(fn){
     if (dbauth === 'true'){
-        MongoClient.connect(dbURIAuth, { //connect to MongoDB using the URI with Authentication 
-            auth:{authdb:authSource}, // use the authSourse value from Zconfig file
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            user: dbuser, //use dbuser value from Zconfig file
-            pass: dbpwd //use dbuser value from Zconfig file
-        }, function(err, db) {
+        MongoClient.connect(dbURIAuth, function(err, db) {
             var dbo = db.db(dbname); // use dbname from Zconfig file
             dbo.collection("procactivities").find({}).toArray(function(err, result){ //make an array of all data in procactivities 
                 if (err) throw err; //if there is an error, throw it
@@ -223,13 +211,7 @@ function procDoc(fn){
 
 function usageDoc(fn){
     if (dbauth === 'true'){
-        MongoClient.connect(dbURIAuth, { //connect to MongoDB using the URI with Authentication 
-            auth:{authdb:authSource}, // use the authSourse value from Zconfig file
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            user: dbuser, //use dbuser value from Zconfig file
-            pass: dbpwd //use dbuser value from Zconfig file
-        }, function(err, db) {
+        MongoClient.connect(dbURIAuth, function(err, db) {
             var dbo = db.db(dbname); // use dbname from Zconfig file
             dbo.collection("usageactivities").find({}).toArray(function(err, result){ //make an array of all data in usageactivities
                 if (err) throw err; //if there is an error, throw it
@@ -260,13 +242,7 @@ function usageDoc(fn){
 
 function wlkDoc(fn){
     if (dbauth === 'true'){
-        MongoClient.connect(dbURIAuth, { //connect to MongoDB using the URI with Authentication 
-            auth:{authdb:authSource}, // use the authSourse value from Zconfig file
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            user: dbuser, //use dbuser value from Zconfig file
-            pass: dbpwd //use dbuser value from Zconfig file
-        }, function(err, db) {
+        MongoClient.connect(dbURIAuth, function(err, db) {
             var dbo = db.db(dbname); // use dbname from Zconfig file
             dbo.collection("workloadactivities").find({}).toArray(function(err, result){ //make an array of all data in workloadactivities
                 if (err) throw err; //if there is an error, throw it
