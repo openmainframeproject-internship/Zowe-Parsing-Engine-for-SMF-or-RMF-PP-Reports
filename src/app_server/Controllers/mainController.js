@@ -1,4 +1,5 @@
-/* GET Homepage*/
+//Add License
+
 var fs = require('fs'); //importing the fs module
 var Zconfig = require("../../config/Zconfig");
 var path = require("path");
