@@ -19,14 +19,18 @@ Please document here
 | bin | Directory for startup file |
 
 # RMF Parsing Engine (ZEBRA)
-   Zebra is a Performance Monitoring tool that converts RMF monitor I and III data into JSON Format. It also Stores realtime data into MongoDB and Plot realtime Workload and CPU Utilization chart using Grafana. Zebra can be used to Parse static RMF Monotor I XML file into JSON. This version works with nodejs v8.11.2
+   Zebra is a Performance Monitoring tool that converts RMF monitor I and III data into JSON Format. As an example and use-case, it shows it can also stoore realtime data into MongoDB and Plot realtime Workload and CPU Utilization chart using Grafana. Zebra can be used to Parse static RMF Monotor I XML file into JSON. This version works with nodejs v8.11.2
 
 # Run Zebra
   To Run Zebra, You'll need to:
-  -  Set Up your Environment: You'll need to install nodejs (most prefered{v 8.11.x}), git and optional programs like Prometheus, MongoDB and Grafana.
+  -  Set Up your Environment: You'll need to install nodejs (most prefered{v 8.11.x}), git and optional programs like Prometheus, MongoDB and Grafana. Optional programs will require proper licenses per their terms and conditions.
+  
   - Clone Zebra
-  - Install App packages using npm install from root directory
-  - Run Zebra using npm, pm2, nodemon or any other nodejs process manager.
+  
+  - Install App packages using npm install from root directory, change set up using config files
+  
+  - Run Zebra using npm, pm2, nodemon or any other nodejs process manager
+   (e.g. node bin/www)
 
 # Use Zebra
   To Use Zebra, You'll need to configure the application parameters. These parameters can be configured by simply editing the Zconfig.json file in the root directory or using Zebra's /addsetting function while Zebra instance is running.
