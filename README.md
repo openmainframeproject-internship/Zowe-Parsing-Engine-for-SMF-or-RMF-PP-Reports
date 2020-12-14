@@ -29,4 +29,4 @@ monitoring tools out there.
 - [X] Testing
 - [X] Video Presentation of the Project
 - [X] Final Evaluation (by mentor)
-- [ ] 3rd Stipend Released
+- [X] 3rd Stipend Released
