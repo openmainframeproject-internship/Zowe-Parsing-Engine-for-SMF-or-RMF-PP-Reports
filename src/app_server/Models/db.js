@@ -12,9 +12,12 @@ var dbuser = Zconfig['dbUser'];
 var dbpwd = Zconfig['dbPassword'];
 var authSource = Zconfig['authSource'];
 //var user = dbuser.replace(/^"(.*)"$/, '$1');
+var conn;
+var activities = ['cpcactivities', 'procactivities', 'usageactivities', 'workloadactivities'];
 
-var dbURI = `mongodb://${mongourl}:${mongoport}/${dbname}`; //no authentication
-var dbURIAuth = `mongodb://${mongourl}:${mongoport}/${dbname}?authSource=${authSource}`; //with authentication
+var dbURI = `mongodb://${mongourl}:${mongoport}/${dbname}?compressors=zlib`; //no authentication
+var dbURIAuth = `mongodb://${mongourl}:${mongoport}/${dbname}?authSource=${authSource}&compressors=zlib`; //with authentication
+
 if (dbauth === 'true'){
     //mongoose.connect(`mongodb://${dbuser}:${dbpwd}@${mongourl}:${mongoport}/${dbname}`,{auth:{authdb:"admin"}, useNewUrlParser: true, useUnifiedTopology: true });
     mongoose.connect(dbURIAuth, {
@@ -25,12 +28,47 @@ if (dbauth === 'true'){
         pass: dbpwd
     }).then(() => {
         console.log('Authentication successful');
+        conn = mongoose.createConnection(dbURIAuth);
+        conn.on('open', function(){
+        conn.db.listCollections({name: 'cpcactivities'})
+        .next(function(err, collinfo) {
+            if(err){
+                console.log("error Connecting to database")
+            } 
+            if (collinfo) {
+                console.log("Collecions exist");
+            }else{
+                for(i in activities){
+                    conn.db.createCollection(activities[i],{storageEngine: {wiredTiger: {configString: 'block_compressor=zlib'}}});
+                    console.log(`${activities[i]} Collection Created`)
+                }
+            
+            }});
+        });
+        
     }).catch(err => {
         console.log('Authentication Failed');
         //process.exit();
     });
 }else{
     mongoose.connect(dbURI);
+    conn = mongoose.createConnection(dbURIAuth);
+    conn.on('open', function(){
+    conn.db.listCollections({name: 'cpcactivities'})
+    .next(function(err, collinfo) {
+        if(err){
+            console.log("error Connecting to database")
+        } 
+        if (collinfo) {
+            console.log("Collecions exist");
+        }else{
+            for(i in activities){
+                conn.db.createCollection(activities[i],{storageEngine: {wiredTiger: {configString: 'block_compressor=zlib'}}});
+                console.log(`${activities[i]} Collection Created`)
+            }
+        
+        }});
+    });
 }
  
 var readLine = require ("readline");

@@ -1,5 +1,4 @@
-//Add License
-
+/* GET Homepage*/
 var fs = require('fs'); //importing the fs module
 var Zconfig = require("../../config/Zconfig");
 var path = require("path");
@@ -138,7 +137,7 @@ module.exports.addSettings = function(req,res){ //Controller function for adding
         break;
     }
    }
-  fs.writeFile("Zconfig.json", JSON.stringify(Zconfig), 'utf-8', function(err, data) {}); // Save all new/modified settings to Zconfig file
+  fs.writeFile("Zconfig.json", JSON.stringify(Zconfig, null, '\t'), 'utf-8', function(err, data) {}); // Save all new/modified settings to Zconfig file
   res.json(Zconfig); // Express returns JSON of the App settings from Zconfig.json file
 }
 
@@ -220,7 +219,7 @@ module.exports.addFormSettings = function(req,res){ //Controller function for ad
         break;
     }
    }
-  fs.writeFile("./config/Zconfig.json", JSON.stringify(Zconfig), 'utf-8', function(err, data) {}); // Save all new/modified settings to Zconfig file
+  fs.writeFile("./config/Zconfig.json", JSON.stringify(Zconfig, null, '\t'), 'utf-8', function(err, data) {}); // Save all new/modified settings to Zconfig file
   Auth.formToken(req.session.name, function(data){ //Authenticate the Access Token from the UI
     if (data.Access){ //if token is valid, check data returned by the authentication function
       parameters(function(parms){ // read the parameters and their values from Zconfig file
