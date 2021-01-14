@@ -53,6 +53,7 @@ Copyright Contributors to the Zowe Project.
   http://localhost:3090/addsettings?appurl=127.0.0.1
 
 ## Recognized Zebra Config Parameters
+
    -  ddsbaseurl: (Distributed Data Server base URL)   
       This is the IP address of the DDS from which the App can retrieve RMF Data. E.g.   
        http://localhost:3090/addsettings?ddsurl=127.0.0.1
