@@ -2,6 +2,7 @@
 
 # ZEBRA(Zowe Embedded Browser for RMF/SMF and APIs)
 
+The latest version of ZEBRA can be found from : https://github.com/zowe/zebra as it is now part of Zowe incubation project
 
 # License Information 
 
